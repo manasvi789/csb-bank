@@ -20,7 +20,7 @@ function App() {
         const fetchWebContent = async () => {
             setLoading(true);
             try {
-                const auth = btoa('test@liferay.com:liferay'); 
+                const auth = btoa('test@liferay.com:test'); 
                 const siteId = '34491';
                 const url = `https://webserver-lctcsbbank-prd.lfr.cloud/o/headless-delivery/v1.0/sites/${siteId}/structured-contents`;
 
@@ -103,7 +103,7 @@ function App() {
     
     const storeInLiferay = async (loanAmount, interestRate, tenure, emi) => {
         try {
-            const auth = btoa('test@liferay.com:liferay'); 
+            const auth = btoa('test@liferay.com:test'); 
             const response = await axios.post(
                 'https://webserver-lctcsbbank-prd.lfr.cloud/o/c/loans',
                 {
