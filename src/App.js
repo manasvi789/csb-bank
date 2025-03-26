@@ -20,7 +20,7 @@ function App() {
         const fetchWebContent = async () => {
             setLoading(true);
             try {
-                const auth = btoa('test@liferay.com:liferay'); // Update with valid credentials
+                const auth = btoa('test@liferay.com:liferay'); 
                 const siteId = '34491';
                 const url = `https://webserver-lctcsbbank-prd.lfr.cloud/o/headless-delivery/v1.0/sites/${siteId}/structured-contents`;
 
@@ -43,7 +43,7 @@ function App() {
         };
 
         fetchWebContent();
-    }, []); // Empty dependency array since no search
+    }, []); 
 
     // EMI Calculation Function
     const calculateEMI = (e) => {
@@ -80,11 +80,11 @@ function App() {
         setTotalPayments(totalAmount);
         setTotalInterest(totalInterestCalc);
 
-        // Store in Liferay
+        
         storeInLiferay(pamt, rate, month, emi);
     };
 
-    // Clear Message After 2 Seconds
+    
     const clearMessage = () => {
         setTimeout(() => setMessage(''), 2000);
     };
@@ -100,10 +100,10 @@ function App() {
         setMessage('');
     };
 
-    // Store Data in Liferay Object
+    
     const storeInLiferay = async (loanAmount, interestRate, tenure, emi) => {
         try {
-            const auth = btoa('test@liferay.com:liferay'); // Update with valid credentials
+            const auth = btoa('test@liferay.com:liferay'); 
             const response = await axios.post(
                 'https://webserver-lctcsbbank-prd.lfr.cloud/o/c/loans',
                 {
@@ -124,7 +124,7 @@ function App() {
             clearMessage();
         } catch (err) {
             console.error('Error storing in Liferay:', err.response?.data || err.message);
-            setMessage('Failed to save EMI');
+            
             clearMessage();
         }
     };
