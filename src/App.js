@@ -6,7 +6,7 @@ function App() {
     const [contents, setContents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    
     // EMI Calculator State
     const [loanAmount, setLoanAmount] = useState('');
     const [interestRate, setInterestRate] = useState(11.25); // Default to min value
@@ -22,7 +22,7 @@ function App() {
             try {
                 const auth = btoa('test@liferay.com:liferay'); // Update with valid credentials
                 const siteId = '34491';
-                const url = `https://webserver-lctcsbbank-prd.lfr.cloud/o/headless-delivery/v1.0/sites/${siteId}/structured-contents`; // Removed search
+                const url = `https://webserver-lctcsbbank-prd.lfr.cloud/o/headless-delivery/v1.0/sites/${siteId}/structured-contents`;
 
                 const response = await axios.get(url, {
                     headers: {
@@ -43,7 +43,7 @@ function App() {
         };
 
         fetchWebContent();
-    });
+    }, []); // Empty dependency array since no search
 
     // EMI Calculation Function
     const calculateEMI = (e) => {
@@ -124,6 +124,7 @@ function App() {
             clearMessage();
         } catch (err) {
             console.error('Error storing in Liferay:', err.response?.data || err.message);
+            setMessage('Failed to save EMI');
             clearMessage();
         }
     };
