@@ -1,0 +1,179 @@
+.App {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  color: #2c3e50;
+}
+
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0;
+}
+
+h3 {
+  color: #3498db;
+  margin: 0 0 15px 0;
+}
+
+.content-image {
+  max-width: 100%;
+  height: auto;
+  margin: 15px 0;
+  border-radius: 5px;
+  display: block;
+}
+
+.rich-content {
+  margin: 15px 0;
+  line-height: 1.6;
+}
+
+.rich-content h1 {
+  font-size: 1.5em;
+  margin: 0 0 10px 0;
+}
+
+.rich-content p {
+  margin: 0 0 15px 0;
+}
+
+.rich-content ul {
+  padding-left: 20px;
+}
+
+.rich-content a {
+  color: #3498db;
+  text-decoration: underline;
+}
+
+.rich-content b, .rich-content strong {
+  font-weight: bold;
+}
+
+small {
+  color: #7f8c8d;
+  display: block;
+  margin-top: 15px;
+}
+
+/* EMI Calculator Styles */
+.emi-calculator {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background: #f9f9f9;
+}
+
+.emi-calculator h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-group label span {
+  font-weight: bold;
+  color: #3498db;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.interest-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 8px;
+  background: #ddd;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.interest-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #3498db;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.interest-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #3498db;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="button"] {
+  background: #7f8c8d;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.message {
+  color: #e74c3c;
+  margin: 10px 0;
+}
+
+.emi-results {
+  margin-top: 20px;
+}
+
+.emi-results p {
+  margin: 5px 0;
+}
+
+.emi-results span {
+  font-weight: bold;
+  color: #2c3e50;
+}
