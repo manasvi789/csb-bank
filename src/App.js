@@ -6,8 +6,7 @@ function App() {
     const [contents, setContents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [search, setSearch] = useState('');
-    
+
     // EMI Calculator State
     const [loanAmount, setLoanAmount] = useState('');
     const [interestRate, setInterestRate] = useState(11.25); // Default to min value
