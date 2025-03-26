@@ -22,9 +22,7 @@ function App() {
             try {
                 const auth = btoa('test@liferay.com:liferay'); // Update with valid credentials
                 const siteId = '34491';
-                const url = search
-                    ? `https://webserver-lctcsbbank-prd.lfr.cloud/o/headless-delivery/v1.0/sites/${siteId}/structured-contents?filter=title contains '${search}'`
-                    : `https://webserver-lctcsbbank-prd.lfr.cloud/o/headless-delivery/v1.0/sites/${siteId}/structured-contents`;
+                const url = `https://webserver-lctcsbbank-prd.lfr.cloud/o/headless-delivery/v1.0/sites/${siteId}/structured-contents`; // Removed search
 
                 const response = await axios.get(url, {
                     headers: {
@@ -45,7 +43,7 @@ function App() {
         };
 
         fetchWebContent();
-    }, [search]);
+    });
 
     // EMI Calculation Function
     const calculateEMI = (e) => {
