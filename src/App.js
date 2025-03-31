@@ -131,7 +131,6 @@ function App() {
 
     return (
         <div className="App">
-            <h1>Liferay Headless CMS Demo</h1>
             
             {loading ? (
                 <p>Loading content...</p>
@@ -148,7 +147,7 @@ function App() {
 
                         return (
                             <li key={content.id}>
-                                <h3>{content.title}</h3>
+                                <h1>{content.title}</h1>
                                 {imageUrl ? (
                                     <img 
                                         src={imageUrl} 
