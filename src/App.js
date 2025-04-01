@@ -162,7 +162,7 @@ function App() {
                                     className="rich-content" 
                                     dangerouslySetInnerHTML={{ __html: richText }} 
                                 />
-                                <small>Published: {new Date(content.datePublished).toLocaleDateString()}</small>
+                                <small>Published: {new Date(content.dateModified).toLocaleDateString()}</small>
                             </li>
                         );
                     })}
