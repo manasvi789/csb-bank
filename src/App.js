@@ -9,8 +9,10 @@ function App() {
     
     // EMI Calculator State
     const [loanAmount, setLoanAmount] = useState('');
-    const [interestRate, setInterestRate] = useState(11.25); // Default to min value
+    const [interestRate, setInterestRate] = useState(11.25);
     const [tenure, setTenure] = useState('');
+    const [name, setName] = useState('');
+    const [contact, setContact] = useState('');
     const [emiResult, setEmiResult] = useState(0);
     const [totalInterest, setTotalInterest] = useState(0);
     const [totalPayments, setTotalPayments] = useState(0);
@@ -20,9 +22,8 @@ function App() {
         const fetchWebContent = async () => {
             setLoading(true);
             try {
-                const auth = btoa('test@liferay.com:test'); 
-                const siteId = '34491';
-                const url = `https://webserver-lctcsbbank-prd.lfr.cloud/o/headless-delivery/v1.0/sites/${siteId}/structured-contents`;
+                const auth = btoa('test@liferay.com:test');
+                const url = `https://webserver-lctcsbbank-prd.lfr.cloud/o/headless-delivery/v1.0/sites/34491/structured-contents`;
 
                 const response = await axios.get(url, {
                     headers: {
@@ -32,10 +33,8 @@ function App() {
                     responseType: 'json'
                 });
 
-                console.log('API Response:', response.data);
                 setContents(response.data.items || []);
             } catch (err) {
-                console.error('Fetch Error:', err.message, err.response);
                 setError(`Failed to fetch content: ${err.message}`);
             } finally {
                 setLoading(false);
@@ -43,7 +42,7 @@ function App() {
         };
 
         fetchWebContent();
-    }, []); 
+    }, []);
 
     // EMI Calculation Function
     const calculateEMI = (e) => {
@@ -79,12 +78,33 @@ function App() {
         setEmiResult(emi);
         setTotalPayments(totalAmount);
         setTotalInterest(totalInterestCalc);
-
-        
-        storeInLiferay(pamt, rate, month, emi);
     };
 
     
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!emiResult) {
+            setMessage('Please calculate EMI first');
+            clearMessage();
+            return;
+        }
+        if (!name || !contact) {
+            setMessage('Please enter name and contact');
+            clearMessage();
+            return;
+        }
+        
+        await storeInLiferay(
+            parseFloat(loanAmount),
+            parseFloat(interestRate),
+            parseInt(tenure),
+            parseInt(emiResult),
+            name,
+            contact
+        );
+    };
+
+    // Clear Message After 2 Seconds
     const clearMessage = () => {
         setTimeout(() => setMessage(''), 2000);
     };
@@ -92,25 +112,29 @@ function App() {
     // Reset EMI Calculator
     const resetEMI = () => {
         setLoanAmount('');
-        setInterestRate(11.25); // Reset to min value
+        setInterestRate(11.25);
         setTenure('');
+        setName('');
+        setContact('');
         setEmiResult(0);
         setTotalInterest(0);
         setTotalPayments(0);
         setMessage('');
     };
 
-    
-    const storeInLiferay = async (loanAmount, interestRate, tenure, emi) => {
+    // Store Data in Liferay Object
+    const storeInLiferay = async (loanAmount, interestRate, tenure, emi, name, contact) => {
         try {
-            const auth = btoa('test@liferay.com:test'); 
+            const auth = btoa('test@liferay.com:test');
             const response = await axios.post(
                 'https://webserver-lctcsbbank-prd.lfr.cloud/o/c/loans',
                 {
-                    loanAmount: loanAmount,
-                    interestRate: interestRate,
+                    loanAmount,
+                    interestRate,
                     tenure: tenure.toString(),
-                    emi: parseInt(emi)
+                    emi,
+                    name,
+                    contact,
                 },
                 {
                     headers: {
@@ -119,19 +143,17 @@ function App() {
                     }
                 }
             );
-            console.log('Stored in Liferay:', response.data);
             setMessage('EMI saved successfully!');
             clearMessage();
         } catch (err) {
             console.error('Error storing in Liferay:', err.response?.data || err.message);
-            
+            setMessage('Failed to save EMI');
             clearMessage();
         }
     };
 
     return (
         <div className="App">
-            
             {loading ? (
                 <p>Loading content...</p>
             ) : error ? (
@@ -174,7 +196,7 @@ function App() {
             {/* EMI Calculator Section */}
             <div className="emi-calculator">
                 <h2>Personal Loan EMI Calculator</h2>
-                <form onSubmit={calculateEMI}>
+                <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>Loan Amount (INR):</label>
                         <input
@@ -202,21 +224,43 @@ function App() {
                             <option value="">Select Tenure</option>
                             <option value="12">12 months</option>
                             <option value="24">24 months</option>
+                            <option value="25">25 months</option>
                             <option value="36">36 months</option>
                             <option value="48">48 months</option>
                             <option value="60">60 months</option>
                             <option value="72">72 months</option>
                         </select>
                     </div>
-                    <button type="submit">Calculate EMI</button>
+                    <div className="form-group">
+                        <label>Name:</label>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Contact:</label>
+                        <input
+                            type="number"
+                            value={contact}
+                            onChange={(e) => setContact(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <button type="button" onClick={calculateEMI}>Calculate EMI</button>
+                    <button type="submit">Submit</button>
                     <button type="button" onClick={resetEMI}>Reset</button>
                 </form>
                 {message && <p className="message">{message}</p>}
-                <div className="emi-results">
-                    <p>EMI: <span>{emiResult} INR</span></p>
-                    <p>Total Interest: <span>{totalInterest} INR</span></p>
-                    <p>Total Payments: <span>{totalPayments} INR</span></p>
-                </div>
+                {emiResult > 0 && (
+                    <div className="emi-results">
+                        <p>EMI: <span>{emiResult} INR</span></p>
+                        <p>Total Interest: <span>{totalInterest} INR</span></p>
+                        <p>Total Payments: <span>{totalPayments} INR</span></p>
+                    </div>
+                )}
             </div>
         </div>
     );
