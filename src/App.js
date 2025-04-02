@@ -153,7 +153,6 @@ function App() {
             status: err.response?.status,
             headers: err.response?.headers
         });
-        setMessage(`Failed to save EMI: ${err.response?.data?.message || err.message}`);
         clearMessage();
     }
 };
@@ -230,7 +229,6 @@ function App() {
                             <option value="">Select Tenure</option>
                             <option value="12">12 months</option>
                             <option value="24">24 months</option>
-                            <option value="25">25 months</option>
                             <option value="36">36 months</option>
                             <option value="48">48 months</option>
                             <option value="60">60 months</option>
