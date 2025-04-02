@@ -122,36 +122,41 @@ function App() {
     };
 
     // Store Data in Liferay Object
-    const storeInLiferay = async (loanAmount, interestRate, tenure, emi, name, contact) => {
-        try {
-            const auth = btoa('test@liferay.com:test');
-            const response = await axios.post(
-                'https://webserver-lctcsbbank-prd.lfr.cloud/o/c/loans',
-                {
-                    loanAmount,
-                    interestRate,
-                    tenure: tenure.toString(),
-                    emi,
-                    name,
-                    contact,
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Basic ${auth}`
-                    }
+   const storeInLiferay = async (loanAmount, interestRate, tenure, emi, name, contact) => {
+    try {
+        const auth = btoa('test@liferay.com:test');
+        const response = await axios.post(
+            'https://webserver-lctcsbbank-prd.lfr.cloud/o/c/loans',
+            {
+                loanAmount,
+                interestRate,
+                tenure: tenure.toString(),
+                emi,
+                name,
+                contact,
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Basic ${auth}`
                 }
-            );
-            // Use response to avoid no-unused-vars error (optional logging)
-            console.log('Liferay response:', response.data);
-            setMessage('EMI saved successfully!');
-            clearMessage();
-        } catch (err) {
-            console.error('Error storing in Liferay:', err.response?.data || err.message);
-            setMessage('Failed to save EMI');
-            clearMessage();
-        }
-    };
+            }
+        );
+        console.log('Liferay response:', response.data);
+        setMessage('EMI saved successfully!');
+        clearMessage();
+    } catch (err) {
+        // Log detailed error information
+        console.error('Error storing in Liferay:', {
+            message: err.message,
+            response: err.response?.data,
+            status: err.response?.status,
+            headers: err.response?.headers
+        });
+        setMessage(`Failed to save EMI: ${err.response?.data?.message || err.message}`);
+        clearMessage();
+    }
+};
 
     return (
         <div className="App">
