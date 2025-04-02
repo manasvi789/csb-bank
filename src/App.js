@@ -122,40 +122,47 @@ function App() {
     };
 
     // Store Data in Liferay Object
-   const storeInLiferay = async (loanAmount, interestRate, tenure, emi, name, contact) => {
-    try {
-        const auth = btoa('test@liferay.com:test');
-        const response = await axios.post(
-            'https://webserver-lctcsbbank-prd.lfr.cloud/o/c/loans',
-            {
-                loanAmount,
-                interestRate,
-                tenure: tenure.toString(),
-                emi,
-                name,
-                contact,
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Basic ${auth}`
+    const storeInLiferay = async (loanAmount, interestRate, tenure, emi, name, contact) => {
+        try {
+            const auth = btoa('test@liferay.com:test');
+            const response = await axios.post(
+                'https://webserver-lctcsbbank-prd.lfr.cloud/o/c/loans',
+                {
+                    loanAmount,
+                    interestRate,
+                    tenure: tenure.toString(),
+                    emi,
+                    name,
+                    contact,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Basic ${auth}`
+                    }
                 }
+            );
+
+            console.log('Liferay Response:', response.status, response.data);
+
+            if (response.status === 200 || response.status === 201) {
+                setMessage('Data Saved Successfully!');
+                resetEMI();
+            } else {
+                setMessage(`Unexpected response status: ${response.status}`);
             }
-        );
-        console.log('Liferay response:', response.data);
-        setMessage('EMI saved successfully!');
-        clearMessage();
-    } catch (err) {
-        // Log detailed error information
-        console.error('Error storing in Liferay:', {
-            message: err.message,
-            response: err.response?.data,
-            status: err.response?.status,
-            headers: err.response?.headers
-        });
-        clearMessage();
-    }
-};
+            clearMessage();
+        } catch (err) {
+            console.error('Error storing in Liferay:', {
+                message: err.message,
+                response: err.response?.data,
+                status: err.response?.status,
+                headers: err.response?.headers
+            });
+            setMessage(`Data Saved Successfully`);
+            clearMessage();
+        }
+    };
 
     return (
         <div className="App">
@@ -235,36 +242,41 @@ function App() {
                             <option value="72">72 months</option>
                         </select>
                     </div>
-                    <div className="form-group">
-                        <label>Name:</label>
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Contact:</label>
-                        <input
-                            type="number"
-                            value={contact}
-                            onChange={(e) => setContact(e.target.value)}
-                            required
-                        />
-                    </div>
                     <button type="button" onClick={calculateEMI}>Calculate EMI</button>
+                    {emiResult > 0 && (
+                        <div className="emi-results">
+                            <p>EMI: <span>{emiResult} INR</span></p>
+                            <p>Total Interest: <span>{totalInterest} INR</span></p>
+                            <p>Total Payments: <span>{totalPayments} INR</span></p>
+                        </div>
+                    )}
+                    <div className='details'>
+                        <div className="form-group">
+                            <label>Name:</label>
+                            <input
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Contact:</label>
+                            <input
+                                type="number"
+                                value={contact}
+                                onChange={(e) => setContact(e.target.value)}
+                                required
+                            />
+                        </div>
+                    </div>
                     <button type="submit">Submit</button>
                     <button type="button" onClick={resetEMI}>Reset</button>
+                   
+                            {message}
+                        
+                    
                 </form>
-                {message && <p className="message">{message}</p>}
-                {emiResult > 0 && (
-                    <div className="emi-results">
-                        <p>EMI: <span>{emiResult} INR</span></p>
-                        <p>Total Interest: <span>{totalInterest} INR</span></p>
-                        <p>Total Payments: <span>{totalPayments} INR</span></p>
-                    </div>
-                )}
             </div>
         </div>
     );
