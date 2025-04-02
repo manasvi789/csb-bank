@@ -11,7 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-/* Header.css */
+
+/* Header Styles */
 .header {
   background-color: #003087;
   color: white;
@@ -32,7 +33,7 @@ code {
 }
 
 .logo-img {
-  height: 50px; 
+  height: 50px;
   width: auto;
 }
 
@@ -52,13 +53,32 @@ code {
 }
 
 .nav-menu a:hover {
-  color: #ffd700; 
+  color: #ffd700;
 }
 
 .contact-info {
   font-size: 14px;
 }
-/* Footer.css */
+
+/* Hamburger Menu Styles */
+.hamburger {
+  display: none; /* Hidden by default on desktop */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.hamburger .bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+/* Footer Styles */
 .footer {
   background-color: #003087;
   color: white;
@@ -103,8 +123,58 @@ code {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  /* Header */
+  .header-container {
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .hamburger {
+    display: block; /* Show hamburger on mobile/tablet */
+  }
+
+  .nav-menu {
+    display: none; /* Hidden by default on mobile */
+    width: 100%;
+    position: absolute;
+    top: 70px; /* Adjust based on header height */
+    left: 0;
+    background-color: #003087;
+    padding: 20px;
+    z-index: 999;
+  }
+
+  .nav-menu.active {
+    display: block; /* Show when active */
+  }
+
+  .nav-menu ul {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .contact-info {
+    display: none; /* Hide contact info on mobile if not needed */
+  }
+
+  /* Footer */
   .footer-container {
     grid-template-columns: 1fr;
     text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-img {
+    height: 40px; /* Smaller logo on very small screens */
+  }
+
+  .header {
+    padding: 5px 0;
+  }
+
+  .nav-menu {
+    top: 60px; /* Adjust for smaller header */
   }
 }
