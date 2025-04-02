@@ -80,7 +80,6 @@ function App() {
         setTotalInterest(totalInterestCalc);
     };
 
-    
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!emiResult) {
@@ -143,6 +142,8 @@ function App() {
                     }
                 }
             );
+            // Use response to avoid no-unused-vars error (optional logging)
+            console.log('Liferay response:', response.data);
             setMessage('EMI saved successfully!');
             clearMessage();
         } catch (err) {
@@ -170,7 +171,7 @@ function App() {
                         return (
                             <li key={content.id}>
                                 <h1>{content.title}</h1>
-                                {imageUrl ? (
+                                {imageField ? (
                                     <img 
                                         src={imageUrl} 
                                         alt={content.title} 
